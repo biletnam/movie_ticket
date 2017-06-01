@@ -12,12 +12,13 @@
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('layouts.movietickets_v1.default');
 });
 
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::get('/register', 'AuthController@show');
+Route::get('/register', 'AuthController@show')->name('register');
 Route::post('/register', 'AuthController@store');
+Route::get('/logout', 'AuthController@destroy');
