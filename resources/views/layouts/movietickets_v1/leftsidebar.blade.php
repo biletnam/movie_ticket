@@ -6,8 +6,12 @@
                     <img src="../../images/user.png" width="48" height="48" alt="User" />
                 </div>
                 <div class="info-container">
-                    <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</div>
-                    <div class="email">{{ Auth::user()->email }}</div>
+                    @if(Auth::user())
+                        <div class="name" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">{{ Auth::user()->name }}</div>
+                        <div class="email">{{ Auth::user()->email }}</div>
+                    @else
+
+                    @endif
                     <div class="btn-group user-helper-dropdown">
                         <i class="material-icons" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">keyboard_arrow_down</i>
                         <ul class="dropdown-menu pull-right">
@@ -33,10 +37,18 @@
                         </a>
                     </li>
                     <li>
-                        <a href="../../pages/typography.html">
+                        <a href="javascript:void(0);" class="menu-toggle">
                             <i class="material-icons">text_fields</i>
-                            <span>Typography</span>
+                            <span>Movies</span>
                         </a>
+                        <ul class="ml-menu">
+                            <li>
+                                <a href="{{ url('/movies') }}">All movies</a>
+                            </li>
+                            <li>
+                                <a href="{{ url('/movies/add') }}">Register new movie</a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="../../pages/helper-classes.html">
@@ -165,49 +177,6 @@
                             </li>
                             <li>
                                 <a href="../../pages/ui/waves.html">Waves</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">assignment</i>
-                            <span>Forms</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="../../pages/forms/basic-form-elements.html">Basic Form Elements</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/forms/advanced-form-elements.html">Advanced Form Elements</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/forms/form-examples.html">Form Examples</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/forms/form-validation.html">Form Validation</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/forms/form-wizard.html">Form Wizard</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/forms/editors.html">Editors</a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="javascript:void(0);" class="menu-toggle">
-                            <i class="material-icons">view_list</i>
-                            <span>Tables</span>
-                        </a>
-                        <ul class="ml-menu">
-                            <li>
-                                <a href="../../pages/tables/normal-tables.html">Normal Tables</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/tables/jquery-datatable.html">Jquery Datatables</a>
-                            </li>
-                            <li>
-                                <a href="../../pages/tables/editable-table.html">Editable Tables</a>
                             </li>
                         </ul>
                     </li>

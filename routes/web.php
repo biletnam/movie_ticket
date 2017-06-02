@@ -11,14 +11,24 @@
 |
 */
 
-Route::get('/', function () {
-    return view('layouts.movietickets_v1.default');
-});
+// Route::get('/', function () {
+//     return view('layouts.movietickets_v1.default');
+// });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home');
 
+/*
+*	Auth Routes
+*/
 Route::get('/register', 'AuthController@show')->name('register');
 Route::post('/register', 'AuthController@store');
 Route::get('/logout', 'AuthController@destroy');
+
+/*
+*	Movie Routes
+*/
+Route::get('/movies', 'MovieController@index');
+Route::get('/movies/add', 'MovieController@create');
+Route::post('/movies/add', 'MovieController@store');
