@@ -17,4 +17,9 @@ class Movie extends Model
     {
     	return $this->belongsToMany('App\Genres', 'genre_movie', 'genre_id', 'movie_id');
     }
+
+    public function images()
+    {
+    	return $this->hasMany('App\MovieImages');
+    }
 }

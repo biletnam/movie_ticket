@@ -15,8 +15,8 @@
                 { data: 'status', name: 'name' },
                 { data: 'stars', name: 'name' },
                 { data: 'genres', name: 'name' },
-                { data: 'edit', name: 'edit', orderable: false, searchable: false},
-            ]
+                { data: 'action', name: 'edit', orderable: false, searchable: false},
+            ],
         });
 	})
 </script>
@@ -52,17 +52,6 @@
                                 <th></th>
                             </tr>
                         </thead>
-                        <tfoot>
-                            <tr>
-                                <th>Name</th>
-                                <th>Duration</th>
-                                <th>Release Date</th>
-                                <th>Status</th>
-                                <th>Stars</th>
-                                <th>Genres</th>
-                                <th></th>
-                            </tr>
-                        </tfoot>
                         <tbody>
                         </tbody>
                     </table>

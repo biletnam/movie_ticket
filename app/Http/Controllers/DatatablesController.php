@@ -34,9 +34,9 @@ class DatatablesController extends Controller
                 	});
                 	return $genre->all();
                 })
-	            ->addColumn('edit', function ($movie) {
-	                return '';
-	            })
+                ->addColumn('action', function ($user) {
+                    return '<a href="/movie/'.$user->id.'" class="btn btn-xs btn-default"><i class="glyphicon glyphicon-edit"></i> Edit</a>';
+                })
                 ->make(true);
     }
 }

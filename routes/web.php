@@ -32,8 +32,9 @@ Route::get('/logout', 'AuthController@destroy');
 Route::get('/movies', 'MovieController@index');
 Route::get('/movies/add', 'MovieController@create');
 Route::post('/movies/add', 'MovieController@store');
-// Route::get('/movies/datatable', 'MovieController@index_datatable')->name('datatable');
+Route::get('/movie{$id}', 'MovieController@show');
 
+Route::get('/movie/destroy/{$id}', 'MovieController@destroy');
 
 /*
 *	Datatables Routes - All datatables functions are inside one controller

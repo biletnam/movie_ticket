@@ -46,7 +46,7 @@
                             <div class="form-group form-float">
                                 <div class="form-line">
                                     <label for="id_label_multiple">Cover image:</label>
-                                    <input type="file" name="file" >
+                                    <input type="file" name="movie_image" >
                                 </div>
                             </div>
                         </div>
