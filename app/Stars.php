@@ -6,8 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Stars extends Model
 {
-    public function movie()
-    {
-    	return $this->belongsTo(movie::class);
-    }
+	public function movies()
+	{
+		return $this->belongsToMany('App\Movie');
+	}
 }

@@ -10,6 +10,11 @@ class Movie extends Model
 
     public function stars()
     {
-    	return $this->hasMany(Stars::class);
+    	return $this->belongsToMany('App\Stars');
+    }
+
+    public function genres()
+    {
+    	return $this->belongsToMany('App\Genres', 'genre_movie', 'genre_id', 'movie_id');
     }
 }
