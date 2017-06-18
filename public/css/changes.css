@@ -1,0 +1,56 @@
+.pointer{
+	cursor: pointer;
+}
+
+/* movies updates */
+.image-handler {
+	
+}
+.image-handler img{
+	border: 1px solid gray;
+	border-radius: 5px;
+	width: 120px;
+	height: 150px;
+}
+
+/* Home pagination tabs */
+.home-pagination{
+	height: 420px;
+}
+
+.home-pagination img{
+	height: 170px;
+}
+.home-desciprtion{
+    width: 100%;
+    height: 100px;
+    overflow: auto;
+    margin-bottom: 25px;
+}
+.read-btn{
+    position: relative;
+    margin-top: 15px;
+    margin-bottom: 50px;
+    /*margin-left: 30px;*/
+    bottom: 0px;
+}
+.pagination-title{
+	height: 50px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar
+{
+  width: 12px;  /* for vertical scrollbars */
+  height: 12px; /* for horizontal scrollbars */
+}
+
+::-webkit-scrollbar-track
+{
+  background: rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb
+{
+  background: rgba(0, 0, 0, 0.5);
+}

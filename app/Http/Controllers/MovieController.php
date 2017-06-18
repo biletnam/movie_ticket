@@ -7,6 +7,8 @@ use App\Movie;
 use App\Stars;
 use App\Genres;
 use App\MovieImages;
+use App\Comments;
+use Auth;
 // use Datatables;
 // use Carbon;
 class MovieController extends Controller
@@ -43,7 +45,6 @@ class MovieController extends Controller
      */
     public function store(Request $request)
     {
-
         $this->validate(request(), [
             'name' => 'required|min:5',
             'duration' => 'required|numeric',
@@ -55,6 +56,8 @@ class MovieController extends Controller
                     'name'  => request()->name,
                     'duration' => request()->duration,
                     'status'    => request()->status,
+                    'description'  => request()->description,
+                    'youtube_link'  => request()->youtube_link, 
                     'release_date' => request()->release_date
                 ]);
 
@@ -63,13 +66,13 @@ class MovieController extends Controller
         $movie->genres()->attach(request()->genres);
 
         // Upload and store image
-        // if(request()->file('movie_image'))
-        // {
-        //     $upload = new MovieImages;
-        //     $upload->movie_id = 1;
-        //     $upload->image_path = request()->file('movie_image')->store('movies_images');
-        //     $movie->images()->save($upload);
-        // }
+        if(request()->file('movie_image'))
+        {
+            $upload = new MovieImages;
+            // $upload->movie_id = 2;
+            $upload->image_path = request()->file('movie_image')->store('public');
+            $movie->images()->save($upload);
+        }
         
         redirect('/movies');
     }
@@ -82,7 +85,47 @@ class MovieController extends Controller
      */
     public function show($id)
     {
-        // https://bootsnipp.com/snippets/featured/ecommerce-product-detail
+        $movie = Movie::find($id);
+        $comments = $movie->comments;
+        $reviews = $movie->reviews;
+
+        $movie_reviews = null;
+        if ($reviews->count()) {
+            // Calculate reviews:
+            $movie_reviews = new \stdClass();
+            $movie_reviews->one = 0;
+            $movie_reviews->two = 0;
+            $movie_reviews->three = 0;
+            $movie_reviews->four = 0;
+            $movie_reviews->five = 0;
+            $total = 0;
+            $sum = 0;
+            foreach ($reviews as $review) {
+                switch ($review->stars) {
+                    case '1':
+                        $movie_reviews->one++;
+                        break;
+                    case '2':
+                        $movie_reviews->two++;
+                        break;
+                    case '3':
+                        $movie_reviews->three++;
+                        break;
+                    case '4':
+                        $movie_reviews->four++;
+                        break;
+                    case '5':
+                        $movie_reviews->five++;
+                        break;
+                }
+                $sum += $review->stars;
+                $total++;
+            }
+            $movie_reviews->total = $total;
+            $movie_reviews->points = $sum/$total;
+        }
+
+        return view('movie.profile', compact('movie', 'comments', 'movie_reviews'));
     }
 
     /**
@@ -93,7 +136,11 @@ class MovieController extends Controller
      */
     public function edit($id)
     {
-        //
+        $stars = Stars::all();
+        $genres = Genres::all();
+        $movie = Movie::findOrFail($id);
+        
+        return view('movie.create', compact('stars', 'genres', 'movie'));
     }
 
     /**
@@ -105,7 +152,23 @@ class MovieController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $movie = new Movie;
+        $movie::find($id)->update(request()->all());
+        if ($movie->has('stars')) {
+            $movie::find($id)->stars()->sync(request()->stars);
+        }
+        if ($movie->has('genres')) {
+            $movie::find($id)->genres()->sync(request()->genres);
+        }
+        // Upload and store image
+        if(request()->file('movie_image'))
+        {
+            $upload = new MovieImages;
+            $upload->image_path = request()->file('movie_image')->store('public');
+            $movie::find($id)->images()->save($upload);
+        }
+
+        redirect('/movies');
     }
 
     /**
@@ -120,4 +183,19 @@ class MovieController extends Controller
         $movie->findOrFail($id);
         dd($movie);
     }
+
+    /*
+    *   Insert new movie comment
+    *   @param int $id
+    */
+    public function comments(Request $request ,$id)
+    {
+        //dd($request->all());
+        $movie = Movie::find($id);
+        $movie->addComment(request('content'), Auth::id());
+        $movie->addRating(request('rating'), Auth::id());
+
+        return back();
+    }
+
 }

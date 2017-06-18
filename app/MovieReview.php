@@ -4,9 +4,10 @@ namespace App;
 
 use Illuminate\Database\Eloquent\Model;
 
-class MovieImages extends Model
+class MovieReview extends Model
 {
-	protected $fillable = ['movie_id', 'image_path'];
+	protected $fillable = ['user_id' ,'stars'];
+
     public function movie()
     {
     	return $this->belongsTo('App\Movie');

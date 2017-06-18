@@ -20,7 +20,13 @@
                 </ul>
             </div>
             <div class="body">
-                <form action="{{ url('/movies/add') }}" method="POST" enctype="multipart/form-data">
+                @if(isset($movie))
+                    <form action="{{ url('/movies/'.$movie->id.'/edit') }}" method="POST" enctype="multipart/form-data">
+                    {{ method_field('PATCH') }}
+                @else
+                    <form action="{{ url('/movies/add') }}" method="POST" enctype="multipart/form-data">
+                @endif
+                
                     {{ csrf_field() }}
                     <ul class="nav nav-tabs">
                         <li class="active"><a data-toggle="tab" href="#home">Home</a></li>
@@ -33,13 +39,13 @@
                             <h3>Movie Information</h3>
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" class="form-control" name="name" required>
+                                    <input type="text" class="form-control" name="name" value="{{ isset($movie->name) ? $movie->name : '' }}" required>
                                     <label class="form-label">Movie name*</label>
                                 </div>
                             </div>
                             <div class="form-group form-float">
                                 <div class="form-line">
-                                    <input type="text" class="form-control" name="duration" id="duration" required>
+                                    <input type="text" class="form-control" name="duration" id="duration" value="{{ isset($movie->duration) ? $movie->duration : '' }}" required>
                                     <label class="form-label">Duration*</label>
                                 </div>
                             </div>                        
@@ -49,28 +55,54 @@
                                     <input type="file" name="movie_image" >
                                 </div>
                             </div>
+                            @if(isset($movie) && $movie->images->count())
+                            <div class="form-group image-handler">
+                                <img src="{{ asset('storage/' .$movie->images[0]->image_path) }}">
+                            </div>
+                            @endif
                         </div>
+                        <?php
+                        $movie_stars = [];
+                        if(isset($movie) && $movie->stars):
+                            foreach($movie->stars as $star):
+                                $movie_stars[] = $star->id;
+                            endforeach;
+                        endif; ?>
+
                         <div id="menu1" class="tab-pane fade">
                             <h3>Details</h3>
                             <div class="form-group form-float">
-                                <div>
                                     <label for="id_label_multiple">Choose Stars:</label>
                                     <select name="stars[]" class="js-example-basic-multiple js-states form-control select2" multiple="multiple">
                                             @foreach($stars as $star)
-                                                <option value="{{ $star->id }}">{{ $star->first_name . ' ' . $star->last_name }}</option>
+                                                <option value="{{ $star->id }}" {{ (in_array($star->id, $movie_stars)) ? 'selected' : '' }} >{{ $star->first_name . ' ' . $star->last_name }}</option>
                                             @endforeach
                                     </select>
-                                </div>
-                            </div>      
+                            </div> 
+
+                            <?php
+                            $movie_genres = [];
+                            if(isset($movie) && $movie->genres):
+                                foreach($movie->genres as $genre):
+                                    $movie_genres[] = $genre->id;
+                                endforeach;
+                            endif; ?>
+
                             <div class="form-group form-float">
-                                <div>
-                                    <label for="id_label_multiple">Choose Genres:</label>
-                                        <select name="genres[]" class="js-example-basic-multiple js-states form-control select2" multiple="multiple">
-                                                @foreach($genres as $genre)
-                                                    <option value="{{ $genre->id }}">{{ $genre->name }}</option>
-                                                @endforeach
-                                        </select>
-                                </div>
+                                <label for="id_label_multiple">Choose Genres:</label>
+                                <select name="genres[]" class="js-example-basic-multiple js-states form-control select2" multiple="multiple">
+                                        @foreach($genres as $genre)
+                                            <option value="{{ $genre->id }}" {{ (in_array($genre->id, $movie_genres)) ? 'selected' : '' }}>{{ $genre->name }}</option>
+                                        @endforeach
+                                </select>
+                            </div>
+                            <div class="form-group form-float">
+                                <label for="id_label_multiple">Description:</label>
+                                <textarea name="description" class="form-ctonrol col-xs-12" rows="7" required>{{ isset($movie->description) ? $movie->description : '' }}</textarea>
+                            </div>  
+                            <div class="form-group form-float">
+                                <label for="id_label_multiple">YouTube Code:</label>
+                                <input name="youtube_link" value="{{ isset($movie->youtube_link) ? $movie->youtube_link : '' }}" class="form-ctonrol col-xs-12" placeholder="e.x. wwioOQHLU0c" required>
                             </div>
                         </div>
                         <div id="menu2" class="tab-pane fade">
@@ -87,7 +119,7 @@
                             <div class="form-group form-float">
                                 <label class="form-label">Release Date*</label>
                                 <div class="form-line">
-                                    <input type="text" name="release_date" class="datepicker form-control">
+                                    <input type="text" name="release_date" value="{{ isset($movie->release_date) ? $movie->release_date : '' }}" class="datepicker form-control">
                                 </div>
                             </div>
                             <input id="acceptTerms-2" name="acceptTerms" type="checkbox" required>

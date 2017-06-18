@@ -13,6 +13,7 @@
 <link href="{{ URL::asset('css/dataTables.bootstrap.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('css/all-themes.css') }}" rel="stylesheet">
 <link href="{{ URL::asset('css/style.css') }}" rel="stylesheet">
+<link href="{{ URL::asset('css/changes.css') }}" rel="stylesheet">
 
 
 <script src="{{ URL::asset('js/jquery.js') }}"></script>

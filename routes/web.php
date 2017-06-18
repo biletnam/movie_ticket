@@ -1,5 +1,5 @@
 <?php
-
+Use App\Movie;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -11,13 +11,10 @@
 |
 */
 
-// Route::get('/', function () {
-//     return view('layouts.movietickets_v1.default');
-// });
-
 Auth::routes();
 
 Route::get('/', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@lists');
 
 /*
 *	Auth Routes
@@ -32,10 +29,12 @@ Route::get('/logout', 'AuthController@destroy');
 Route::get('/movies', 'MovieController@index');
 Route::get('/movies/add', 'MovieController@create');
 Route::post('/movies/add', 'MovieController@store');
-Route::get('/movie{$id}', 'MovieController@show');
+Route::get('/movies/{id}', 'MovieController@show');
+Route::get('movies/{id}/edit', 'MovieController@edit');
+Route::patch('movies/{id}/edit', 'MovieController@update');
+Route::get('/movies/destroy/{id}', 'MovieController@destroy');
 
-Route::get('/movie/destroy/{$id}', 'MovieController@destroy');
-
+Route::post('/comments/add/{id}', 'MovieController@comments');
 /*
 *	Datatables Routes - All datatables functions are inside one controller
 */
